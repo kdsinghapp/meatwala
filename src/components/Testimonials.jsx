@@ -9,7 +9,7 @@ const Testimonials = ({ restaurants }) => {
   const getReviews = async () => {
     try {
       const res = await axios.get(
-        `http://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
+        `https://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
       );
       console.log("Reviews: ", res?.data?.result?.reviews);
       setReviews(res?.data?.result?.reviews);
@@ -67,7 +67,7 @@ const Testimonials = ({ restaurants }) => {
         </div>
       </section>
 
-      <section className="" id="testi-sec">
+      <section className="overflow-hidden bg-smoke2 space" id="testi-sec">
         <div className="container">
           <div className="slider-area">
             <Swiper
@@ -123,12 +123,12 @@ const Testimonials = ({ restaurants }) => {
             </Swiper>
 
             {/* Navigation buttons */}
-            <button className="slider-arrow slider-prev">
+            {/* <button className="slider-arrow slider-prev">
               <i className="far fa-arrow-left"></i>
             </button>
             <button className="slider-arrow slider-next">
               <i className="far fa-arrow-right"></i>
-            </button>
+            </button> */}
           </div>
         </div>
       </section>

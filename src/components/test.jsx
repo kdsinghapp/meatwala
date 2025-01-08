@@ -1,148 +1,99 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
-const Footer = () => {
-  const [restaurants, setRestaurants] = useState(null);
+const test() => {
+  const [reviews, setReviews] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const getRestaurant = async () => {
+  // Fetch reviews
+  const getReviews = async () => {
     try {
-      const response = await axios.get(
-        "http://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
+      const res = await axios.get(
+        `https://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
       );
-
-      const { success, vendorinfo } = response.data;
-
-      if (success !== "1") {
-        throw new Error("Failed to fetch data");
-      }
-
-      // console.log("Restaurant info:", vendorinfo);
-      setRestaurants(vendorinfo);
+      setReviews(res?.data?.result?.reviews || []);
     } catch (error) {
-      console.error("Error fetching restaurant info:", error.message || error);
+      console.error("Error fetching reviews:", error);
     }
   };
 
   useEffect(() => {
-    getRestaurant();
+    getReviews();
   }, []);
 
-  // console.log("Restaurants:", restaurants);
+  // Handle next and previous
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? reviews.length - 1 : prevIndex - 1
+    );
+  };
+
+  // Truncate text utility
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "…"
+      : text;
+  };
+
   return (
-    <footer className="footer-wrapper footer-layout3">
-      <div className="widget-area">
-        <div className="container">
-          <div className="row justify-content-between">
-            <div className="col-md-3">
-              <div className="widget footer-widget">
-                <h3 className="widget_title text-white">Address</h3>
-                <div className="th-widget-contact">
-                  <div className="info-box">
-                    <p className="info-box_text">{restaurants?.address}</p>
-                  </div>
-                  <div className="info-box">
-                    <p className="info-box_text">
-                      CALL:{" "}
-                      <a href="tel:+16326543564" className="info-box_link">
-                        {restaurants?.contact}
-                      </a>{" "}
-                    </p>
-                  </div>
-                  <p>
-                    <Link to="/menu" className="th-btn btn-sm style4">
-                      Order Now<i className="fas fa-chevrons-right ms-2"></i>
-                    </Link>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div className="widget footer-widget">
-                <div className="text-center">
-                  <h3 className="widget_title text-white">Download Our App</h3>
-                  <Link to="/app-download">
-                    <img src="/assets/img/gplay.png" alt="Google Play Store" />
-                  </Link>
-                  <Link to="/app-download">
-                    <img src="/assets/img/appstore.png" alt="Apple App Store" />
-                  </Link>
-                  <h6 className="text-white mt-3">All Credit card Accepted</h6>
-                  <div className="payment-img mb-3">
+    <div className="testimonials-container">
+      <div className="title-area text-center">
+        <h2 className="sec-title">
+          Our <br /> Reviews
+        </h2>
+      </div>
+      <div className="slider">
+        {reviews.length > 0 && (
+          <div className="slider-wrapper" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            {reviews.map((review, index) => (
+              <div className="slide" key={index}>
+                <div className="review-card">
+                  <div className="review-header">
                     <img
-                      src="/assets/img/normal/payment_methods.png"
-                      alt="Payment Methods"
+                      src={review.profile_photo_url || "default-profile.jpg"}
+                      alt={review.author_name}
+                      className="review-image"
                     />
+                    <div>
+                      <h6>{review.author_name}</h6>
+                      <p>{review.relative_time_description}</p>
+                    </div>
                   </div>
-                  <div className="th-social">
-                    <a href="https://www.instagram.com/">
-                      <i className="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://www.facebook.com/">
-                      <i className="fab fa-facebook-f"></i>
-                    </a>
+                  <div className="review-body">
+                    <div className="stars">
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <i
+                          key={i}
+                          className={`fa ${
+                            i < review.rating ? "fa-star" : "fa-star-o"
+                          }`}
+                          style={{ color: "orange" }}
+                        />
+                      ))}
+                    </div>
+                    <p>{truncateText(review.text || "", 20)}</p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="col-md-3">
-              <div className="widget widget_nav_menu footer-widget">
-                <h3 className="widget_title text-white">Opening Hours</h3>
-                <div className="menu-all-pages-container">
-                  <ul className="menu listing-hour-day">
-                    {restaurants?.vendorOpeningHours?.map((openingHour, index) => (
-                      <li key={index}>
-                        <span className="listing-hour-day">{openingHour?.day}</span>
-                        <span className="listing-hour-time">
-                          {openingHour?.opentime} - {openingHour?.closetime}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
+        )}
+        <button className="slider-arrow slider-prev" onClick={handlePrev}>
+          &#9664;
+        </button>
+        <button className="slider-arrow slider-next" onClick={handleNext}>
+          &#9654;
+        </button>
       </div>
-      <div className="copyright-wrap">
-        <div className="container">
-          <div className="row gy-2 align-items-center justify-content-center">
-            <div className="col-md-10 text-center">
-              <ul className="footerlinks">
-                <li>
-                  <a href="#">Home</a>
-                </li>
-                <li>
-                  <a href="#">Terms & Conditions</a>
-                </li>
-                <li>
-                  <a href="#">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="#">Cookie Policy</a>
-                </li>
-                <li>
-                  <a href="#">Service Disclaimer</a>
-                </li>
-                <li>
-                  <a href="#">Contact Us</a>
-                </li>
-              </ul>
-            </div>
-            <div className="col-md-12 text-center">
-              <p className="copyright-text">
-                Meat Shop <i className="fal fa-copyright"></i> 2025 All Rights Reserved. Powered By{" "}
-                <a href="#">Meatwala</a>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    </div>
   );
 };
 
-export default Footer;
+export default test

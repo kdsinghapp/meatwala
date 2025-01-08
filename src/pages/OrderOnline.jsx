@@ -63,8 +63,8 @@ const OrderOnline = () => {
                       <ul id="left-side-bar-category">
                         {data?.map((item, index) => (
                           <li className="" key={index}>
+                            {" "}
                             <a href="#" className="active">
-                              {" "}
                               {item.category}
                             </a>
                           </li>
@@ -97,7 +97,10 @@ const OrderOnline = () => {
                     <div className="col-xl-3 col-lg-3 col-6" key={idx}>
                       <div className="th-product product-grid">
                         <div className="product-img">
-                          <img src={`https://partnermeatwala.com/documents/${item.image}`} alt={item.foodname} />
+                          <img
+                            src={`https://partnermeatwala.com/documents/${item.image}`}
+                            alt={item.foodname}
+                          />
                           <span className="product-tag">Hot</span>
                           {/* {item.isHot && (
                           )} */}
