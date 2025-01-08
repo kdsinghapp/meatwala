@@ -63,7 +63,7 @@ const OrderOnline = () => {
                       <ul id="left-side-bar-category">
                         {data?.map((item, index) => (
                           <li className="" key={index}>
-                            <a href="#cat_1" className="active">
+                            <a href="#" className="active">
                               {" "}
                               {item.category}
                             </a>
