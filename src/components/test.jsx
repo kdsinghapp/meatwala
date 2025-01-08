@@ -1,119 +1,148 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-// import 'swiper/swiper-bundle.min.css';
+import { Link } from "react-router-dom";
 
-const Testimonials = () => {
-  const [reviews, setReviews] = useState([]);
+const Footer = () => {
+  const [restaurants, setRestaurants] = useState(null);
 
-  const getReviews = async () => {
+  const getRestaurant = async () => {
     try {
-      const res = await axios.get(
-        `http://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
+      const response = await axios.get(
+        "http://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
       );
-      console.log("Reviews: ", res?.data?.result?.reviews);
-      setReviews(res?.data?.result?.reviews);
-    } catch (error) {}
+
+      const { success, vendorinfo } = response.data;
+
+      if (success !== "1") {
+        throw new Error("Failed to fetch data");
+      }
+
+      // console.log("Restaurant info:", vendorinfo);
+      setRestaurants(vendorinfo);
+    } catch (error) {
+      console.error("Error fetching restaurant info:", error.message || error);
+    }
   };
 
   useEffect(() => {
-    getReviews();
+    getRestaurant();
   }, []);
 
+  // console.log("Restaurants:", restaurants);
   return (
-    <>
-      <section>
+    <footer className="footer-wrapper footer-layout3">
+      <div className="widget-area">
         <div className="container">
-          <div className="title-area text-center">
-            <h2 className="sec-title">
-              Our <br /> Reviews
-            </h2>
-          </div>
-        </div>
-      </section>
-
-      <section className="overflow-hidden bg-smoke2 space" id="testi-sec">
-        <div className="container">
-          <div className="slider-area">
-            {reviews.map((review, index) => (
-              <Swiper
-                spaceBetween={10}
-                slidesPerView={1}
-                breakpoints={{
-                  576: { slidesPerView: 2 },
-                  768: { slidesPerView: 2 },
-                  992: { slidesPerView: 3 },
-                  1200: { slidesPerView: 3 },
-                }}
-                navigation={{
-                  prevEl: ".slider-prev",
-                  nextEl: ".slider-next",
-                }}
-                className="productSlider1"
-                key={index}
-              >
-                <SwiperSlide>
-                  <div className="th-product product-grid text-left">
-                    <div className="d-flex">
-                      <div className="me-2">
-                        <img
-                          src="assets/img/testimonial/testi_3_1.jpg"
-                          alt="Product Image"
-                          className="teimg"
-                        />
-                      </div>
-                      <div className="product-content">
-                        <h6 className="mb-0">
-                          <a href="#">{review.author_name}</a>
-                        </h6>
-                        <p>{review.relative_time_description}</p>
-                      </div>
-                    </div>
-                    <div className="text-left">
-                      {/* Star Rating */}
-                      <p className="mb-0">
-                        <i
-                          className="fa fa-star-o"
-                          style={{ color: "orange" }}
-                        ></i>
-                        <i
-                          className="fa fa-star-o"
-                          style={{ color: "orange" }}
-                        ></i>
-                        <i
-                          className="fa fa-star-o"
-                          style={{ color: "orange" }}
-                        ></i>
-                        <i
-                          className="fa fa-star-o"
-                          style={{ color: "orange" }}
-                        ></i>
-                        <i
-                          className="fa fa-star-o"
-                          style={{ color: "orange" }}
-                        ></i>
-                      </p>
-                      <p>{review.text}</p>
-                    </div>
+          <div className="row justify-content-between">
+            <div className="col-md-3">
+              <div className="widget footer-widget">
+                <h3 className="widget_title text-white">Address</h3>
+                <div className="th-widget-contact">
+                  <div className="info-box">
+                    <p className="info-box_text">{restaurants?.address}</p>
                   </div>
-                </SwiperSlide>
-              </Swiper>
-            ))}
+                  <div className="info-box">
+                    <p className="info-box_text">
+                      CALL:{" "}
+                      <a href="tel:+16326543564" className="info-box_link">
+                        {restaurants?.contact}
+                      </a>{" "}
+                    </p>
+                  </div>
+                  <p>
+                    <Link to="/menu" className="th-btn btn-sm style4">
+                      Order Now<i className="fas fa-chevrons-right ms-2"></i>
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
 
-            {/* Navigation buttons */}
-            <button className="slider-arrow slider-prev">
-              <i className="far fa-arrow-left"></i>
-            </button>
-            <button className="slider-arrow slider-next">
-              <i className="far fa-arrow-right"></i>
-            </button>
+            <div className="col-md-6">
+              <div className="widget footer-widget">
+                <div className="text-center">
+                  <h3 className="widget_title text-white">Download Our App</h3>
+                  <Link to="/app-download">
+                    <img src="/assets/img/gplay.png" alt="Google Play Store" />
+                  </Link>
+                  <Link to="/app-download">
+                    <img src="/assets/img/appstore.png" alt="Apple App Store" />
+                  </Link>
+                  <h6 className="text-white mt-3">All Credit card Accepted</h6>
+                  <div className="payment-img mb-3">
+                    <img
+                      src="/assets/img/normal/payment_methods.png"
+                      alt="Payment Methods"
+                    />
+                  </div>
+                  <div className="th-social">
+                    <a href="https://www.instagram.com/">
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/">
+                      <i className="fab fa-facebook-f"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div className="widget widget_nav_menu footer-widget">
+                <h3 className="widget_title text-white">Opening Hours</h3>
+                <div className="menu-all-pages-container">
+                  <ul className="menu listing-hour-day">
+                    {restaurants?.vendorOpeningHours?.map((openingHour, index) => (
+                      <li key={index}>
+                        <span className="listing-hour-day">{openingHour?.day}</span>
+                        <span className="listing-hour-time">
+                          {openingHour?.opentime} - {openingHour?.closetime}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+      <div className="copyright-wrap">
+        <div className="container">
+          <div className="row gy-2 align-items-center justify-content-center">
+            <div className="col-md-10 text-center">
+              <ul className="footerlinks">
+                <li>
+                  <a href="#">Home</a>
+                </li>
+                <li>
+                  <a href="#">Terms & Conditions</a>
+                </li>
+                <li>
+                  <a href="#">Privacy Policy</a>
+                </li>
+                <li>
+                  <a href="#">Cookie Policy</a>
+                </li>
+                <li>
+                  <a href="#">Service Disclaimer</a>
+                </li>
+                <li>
+                  <a href="#">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+            <div className="col-md-12 text-center">
+              <p className="copyright-text">
+                Meat Shop <i className="fal fa-copyright"></i> 2025 All Rights Reserved. Powered By{" "}
+                <a href="#">Meatwala</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 };
 
-export default Testimonials;
-
-
+export default Footer;
