@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const Footer = () => {
   const [restaurants, setRestaurants] = useState(null);
 
@@ -46,16 +45,14 @@ const Footer = () => {
                     <p className="info-box_text">
                       CALL:{" "}
                       <a href="tel:+16326543564" className="info-box_link">
-                        {" "}
                         {restaurants?.contact}
                       </a>{" "}
                     </p>
                   </div>
                   <p>
-                    {" "}
-                    <a href="/menu" className="th-btn btn-sm style4">
+                    <Link to="/menu" className="th-btn btn-sm style4">
                       Order Now<i className="fas fa-chevrons-right ms-2"></i>
-                    </a>{" "}
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -65,17 +62,17 @@ const Footer = () => {
               <div className="widget footer-widget">
                 <div className="text-center">
                   <h3 className="widget_title text-white">Download Our App</h3>
-                  <Link to="/">
-                    <img src="assets/img/gplay.png" alt="Descriptive Text" />
-                  </Link>{" "}
-                  <Link to="/">
-                    <img src="assets/img/appstore.png" alt="Descriptive Text"/>
+                  <Link to="/app-download">
+                    <img src="/assets/img/gplay.png" alt="Google Play Store" />
+                  </Link>
+                  <Link to="/app-download">
+                    <img src="/assets/img/appstore.png" alt="Apple App Store" />
                   </Link>
                   <h6 className="text-white mt-3">All Credit card Accepted</h6>
                   <div className="payment-img mb-3">
                     <img
-                      src="assets/img/normal/payment_methods.png"
-                      alt="Image"
+                      src="/assets/img/normal/payment_methods.png"
+                      alt="Payment Methods"
                     />
                   </div>
                   <div className="th-social">
@@ -84,7 +81,7 @@ const Footer = () => {
                     </a>
                     <a href="https://www.facebook.com/">
                       <i className="fab fa-facebook-f"></i>
-                    </a>{" "}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -95,18 +92,14 @@ const Footer = () => {
                 <h3 className="widget_title text-white">Opening Hours</h3>
                 <div className="menu-all-pages-container">
                   <ul className="menu listing-hour-day">
-                    {restaurants?.vendorOpeningHours?.map(
-                      (openingHour, index) => (
-                        <li key={index}>
-                          <span className="listing-hour-day">
-                            {openingHour?.day}
-                          </span>
-                          <span className="listing-hour-time">
-                            {openingHour?.opentime} - {openingHour?.closetime}
-                          </span>
-                        </li>
-                      )
-                    )}
+                    {restaurants?.vendorOpeningHours?.map((openingHour, index) => (
+                      <li key={index}>
+                        <span className="listing-hour-day">{openingHour?.day}</span>
+                        <span className="listing-hour-time">
+                          {openingHour?.opentime} - {openingHour?.closetime}
+                        </span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -120,30 +113,29 @@ const Footer = () => {
             <div className="col-md-10 text-center">
               <ul className="footerlinks">
                 <li>
-                  <a href="javascript:void();">Home</a>
-                </li>
-
-                <li>
-                  <a href="javascript:void();">Terms & Conditions </a>
+                  <a href="#">Home</a>
                 </li>
                 <li>
-                  <a href="javascript:void();">Privacy Policy</a>
+                  <a href="#">Terms & Conditions</a>
                 </li>
                 <li>
-                  <a href="javascript:void();">Cookie Policy</a>
+                  <a href="#">Privacy Policy</a>
                 </li>
                 <li>
-                  <a href="javascript:void();">Service disclaimer</a>
+                  <a href="#">Cookie Policy</a>
                 </li>
                 <li>
-                  <a href="javascript:void();">Contact Us</a>
+                  <a href="#">Service Disclaimer</a>
+                </li>
+                <li>
+                  <a href="#">Contact Us</a>
                 </li>
               </ul>
             </div>
             <div className="col-md-12 text-center">
               <p className="copyright-text">
-                Meat Shop <i className="fal fa-copyright"></i> 2025 All Rights
-                Reserved. Powered By <a href="#">Meatwala</a>.
+                Meat Shop <i className="fal fa-copyright"></i> 2025 All Rights Reserved. Powered By{" "}
+                <a href="#">Meatwala</a>.
               </p>
             </div>
           </div>
