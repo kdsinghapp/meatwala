@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const Footer = () => {
   const [restaurants, setRestaurants] = useState(null);
@@ -63,12 +65,12 @@ const Footer = () => {
               <div className="widget footer-widget">
                 <div className="text-center">
                   <h3 className="widget_title text-white">Download Our App</h3>
-                  <a href="#">
-                    <img src="assets/img/gplay.png" />
-                  </a>{" "}
-                  <a href="#">
-                    <img src="assets/img/appstore.png" />
-                  </a>
+                  <Link to="/">
+                    <img src="assets/img/gplay.png" alt="Descriptive Text" />
+                  </Link>{" "}
+                  <Link to="/">
+                    <img src="assets/img/appstore.png" alt="Descriptive Text"/>
+                  </Link>
                   <h6 className="text-white mt-3">All Credit card Accepted</h6>
                   <div className="payment-img mb-3">
                     <img
