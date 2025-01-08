@@ -9,7 +9,7 @@ const Testimonials = () => {
   const getReviews = async () => {
     try {
       const res = await axios.get(
-        `https://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
+        `http://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
       );
       console.log("Reviews: ", res?.data?.result?.reviews);
       setReviews(res?.data?.result?.reviews);

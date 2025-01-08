@@ -11,7 +11,7 @@ const OrderOnline = () => {
   const getData = async () => {
     try {
       const res = await axios.get(
-        `https://partnermeatwala.com/api/Vendor/GetVandoreDetails?id=1`
+        `http://partnermeatwala.com/api/Vendor/GetVandoreDetails?id=1`
       );
       setData(res.data.restaurantmenulist);
     } catch (error) {

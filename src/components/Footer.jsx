@@ -7,7 +7,7 @@ const Footer = () => {
   const getRestaurant = async () => {
     try {
       const response = await axios.get(
-        "https://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
+        "http://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
       );
 
       const { success, vendorinfo } = response.data;
