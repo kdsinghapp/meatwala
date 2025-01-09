@@ -70,7 +70,9 @@ const Contactus = ({ restaurants }) => {
                     <a
                       className="box-text w-75"
                       href={`mailto:${restaurants?.email}`}
-                    >{restaurants?.email}</a>
+                    >
+                      {restaurants?.email}
+                    </a>
                   </p>
                 </div>
               </div>
@@ -107,7 +109,7 @@ const Contactus = ({ restaurants }) => {
           </div>
         </div>
       </section>
-      <ScrollTop/>
+      <ScrollTop />
     </>
   );
 };

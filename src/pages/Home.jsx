@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../components/Footer";
 import MobilePage from "../components/MobilePage";
-import Navbar from "../components/Navbar";
 import Testimonials from "../components/Testimonials";
 import MainPage from "../components/Home/MainPage";
 import BestSellers from "../components/Home/BestSellers";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import ScrollTop from "../components/ScrollTop";
+import ExplorProducts from "../components/Home/ExplorProducts";
 
 const Home = ({ restaurants }) => {
   const [welcome, setWelcome] = useState({});
@@ -103,9 +101,7 @@ const Home = ({ restaurants }) => {
             </div>
 
             <div className="col-xl-12 text-center">
-              <p className="text-white">
-              {decodeHtml(welcome?.message)}
-              </p>
+              <p className="text-white">{decodeHtml(welcome?.message)}</p>
             </div>
           </div>
         </div>
@@ -210,62 +206,7 @@ const Home = ({ restaurants }) => {
         </div>
       </section>
 
-      <section className="space" id="blog-sec">
-        <div className="container">
-          <div className="title-area text-center">
-            <h2 className="sec-title">
-              Explore <br /> Our Products
-            </h2>
-          </div>
-          <div className="row gy-4">
-            <div className="col-xl-4">
-              <div className="blog-grid">
-                <div className="blog-img">
-                  <img src="assets/img/p1.jpg" alt="product1" />
-                </div>
-                <div className="blog-content text-center">
-                  <h3 className="box-title">
-                    <a href="#">Chicken</a>
-                  </h3>
-                  <Link to="/menu" className="th-btn btn-sm style4">
-                    Explore<i className="fas fa-chevrons-right ms-2"></i>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-4">
-              <div className="blog-grid">
-                <div className="blog-img">
-                  <img src="assets/img/p2.jpg" alt="product2" />
-                </div>
-                <div className="blog-content text-center">
-                  <h3 className="box-title">
-                    <a href="#">Beef</a>
-                  </h3>
-                  <Link to="/menu" className="th-btn btn-sm style4">
-                    Explore<i className="fas fa-chevrons-right ms-2"></i>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-4">
-              <div className="blog-grid">
-                <div className="blog-img">
-                  <img src="assets/img/p3.png" alt="product3" />
-                </div>
-                <div className="blog-content text-center">
-                  <h3 className="box-title">
-                    <a href="#">Lamb</a>
-                  </h3>
-                  <Link to="/menu" className="th-btn btn-sm style4">
-                    Explore<i className="fas fa-chevrons-right ms-2"></i>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ExplorProducts />
       <Testimonials restaurants={restaurants} />
       <MobilePage />
       <ScrollTop />
