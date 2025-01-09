@@ -15,7 +15,7 @@ function App() {
   const getRestaurant = async () => {
     try {
       const response = await axios.get(
-        "http://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
+        "https://partnermeatwala.com/api/Vendor/GetVendorInfo?restname=Shubh Restaurant&id=1"
       );
 
       const { success, vendorinfo } = response.data;
