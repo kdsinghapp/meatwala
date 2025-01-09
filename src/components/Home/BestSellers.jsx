@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Swiper from "swiper"; // Import Swiper
 import "swiper/css"; // Core Swiper styles
@@ -7,45 +8,25 @@ import "swiper/css/navigation"; // Navigation styles
 const BestSellers = () => {
   const sliderRef = useRef(null);
 
+  const [products, setProducts] = useState([]);
+
+  const getBestSellers = async () => {
+    try {
+      const res = await axios.get(
+        `https://partnermeatwala.com/api/Vendor/getbestsellercategory?restid=1`
+      );
+      console.log("Response", res?.data?.items);
+      setProducts(res?.data?.items);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getBestSellers();
+  }, []);
+
+  // const
+
   // Product data (hardcoded for demonstration)
-  const products = [
-    {
-      image: "assets/img/01.jpg",
-      price: "£177.85",
-      title: "Chicken Breast",
-      link: "#",
-    },
-    {
-      image: "assets/img/02.jpg",
-      price: "£177.85",
-      title: "Beef Chops",
-      link: "#",
-    },
-    {
-      image: "assets/img/03.jpg",
-      price: "£177.85",
-      title: "Mutton",
-      link: "#",
-    },
-    {
-      image: "assets/img/04.jpg",
-      price: "£177.85",
-      title: "Mutton Kabab",
-      link: "#",
-    },
-    {
-      image: "assets/img/01.jpg",
-      price: "£177.85",
-      title: "Chicken Kabab",
-      link: "#",
-    },
-    {
-      image: "assets/img/03.jpg",
-      price: "£177.85",
-      title: "Mutton Stew",
-      link: "#",
-    },
-  ];
 
   useEffect(() => {
     const sliderElement = sliderRef.current;
@@ -93,7 +74,13 @@ const BestSellers = () => {
                   <div className="th-product product-grid">
                     <div className="product-img">
                       <img
-                        src={product.image}
+                        src={
+                          product.rest_catimage
+                            ? `https://partnermeatwala.com/documents/${product.rest_catimage}`
+                            : product.ad_catimage
+                            ? `https://partnermeatwala.com/documents/${product.ad_catimage}`
+                            : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAALVBMVEXz9Pa5vsq2u8j29/jN0dno6u7V2N++ws3w8fTf4efi5OnFydPY2+HJztbR1txPmUB/AAAC0klEQVR4nO3b55aqMBiFYUoioXn/l3ukKSVBJGH4ctb7/JxRVrYbCDVJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAArPLQ7g60YnSjwmoqc3eouarOwmsrOT026TXKu4NNyosCioloissSFndn6+VlNgwn6EY4LrKUsCnm7TCaNuiudFqoiIT9Spo9Ak+Hj77GWsKUMSasAi+2lJMwIeE5JPxLtoRGa8+xiU5YqX5urBuf4UlO+Eyn+br2OHaWm9DU2eeoK2tOL1Vuwucs4Is+u1SxCctlwLQ4O0SpCfN6fXpw9thZakK9qjDN1MmlSk24Xkm/jdG9sxWaMG82CXc3ROXe2UpN+PgpYbffbRwtCk3421qqug+7WpSa0Pywp5lmTnuLUhNaZgvHt4yafgx7i1ITbq4sOoeoZm3bWhSbcDHyF8d0YNRiVba0KDdhMj/yTl2Twep3sLQoOOGrnmn4hePEf9mg/acQnDDJK1V013Trh3HMdesGbS1KTpj0FzG0cQ3O0qClReEJd9ka3LYYb0LzdARcRYw3oavB9YoabUJ3g6sWY0241+CyxUgSmtWFqP0GFy3GkVCnhZ7vPdqvAT8txpAw10WazYf4vcFZizEk1P3fPy0eabD7xnC+JT9h12D/j3o8djvWYH83ufu4/IT6PeKhxYMNdqdSUSScGny3eLTBaBLqxaAL/W0ejC3hvMEh4uF8kSTU+xmiT7hp8L9L6NVgBAk9G4wgoWeD4hN6Nyg+oXeD0hPmxw9dYk24vX9IQhLem21AQhKS8H6hE8q+TtPdVvM1hJKaMBwS/iUSnpILSji+FaTCvgk83oer707XmR70uuTdNSXh3bX384hXvH8Yeus+x2ye1gtGxjukSVJdllBGhUn3QKL/wdpWJmQd7em2CLoV9ltiq0XsZia6fITVCCoQAAAAAAAAAAAAAAAAAAAAAAAAAAAAuMU/B0kslFd7c1EAAAAASUVORK5CYII="
+                        }
                         alt={product.title}
                         style={{ width: "100%", height: "280px" }}
                       />
@@ -101,7 +88,7 @@ const BestSellers = () => {
                     <div className="product-content">
                       <span className="price">{product.price}</span>
                       <h3 className="product-title">
-                        <a href={product.link}>{product.title}</a>
+                        <a href={product.link}>{product.catname}</a>
                       </h3>
                       <Link
                         to="/menu"
@@ -122,10 +109,7 @@ const BestSellers = () => {
           >
             <i className="far fa-arrow-left"></i>
           </button>
-          <button
-            className="slider-arrow slider-next"
-            aria-label="Next Slide"
-          >
+          <button className="slider-arrow slider-next" aria-label="Next Slide">
             <i className="far fa-arrow-right"></i>
           </button>
         </div>

@@ -1,8 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
+import ScrollTop from "../components/ScrollTop";
 
 const Aboutus = ({ restaurants }) => {
+
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    const decodedText = txt.value;
+
+    // Remove HTML tags
+    const strippedText = decodedText.replace(/<\/?[^>]+(>|$)/g, "");
+    return strippedText;
+  };
+
   return (
     <>
       <div
@@ -38,23 +50,7 @@ const Aboutus = ({ restaurants }) => {
                 <div className="title-area mb-32">
                   <h2 className="sec-title">Who We Are</h2>
                   <p className="sec-text" style={{ textAlign: "justify" }}>
-                    At{" "}
-                    <span style={{ color: "black" }}>
-                      {restaurants?.name}
-                    </span>
-                    , we bring you the finest non-veg delicacies crafted with
-                    love, fresh ingredients, and bold flavors. From sizzling
-                    grills to aromatic curries, our menu celebrates the art of
-                    unforgettable taste. Step in for a cozy dining experience
-                    where every bite is a feast for your senses!
-                  </p>
-                  <p className="sec-text" style={{ textAlign: "justify" }}>
-                    Whether you’re a fan of classic grilled dishes, aromatic
-                    curries, or contemporary non-veg fusions, we have something
-                    to tantalize your taste buds. Our mission is to provide not
-                    just a meal but an unforgettable dining experience, where
-                    great food meets warm hospitality in a cozy, welcoming
-                    atmosphere.
+                    {decodeHtml(restaurants?.description)}
                   </p>
                 </div>
               </div>
@@ -116,6 +112,7 @@ const Aboutus = ({ restaurants }) => {
           </div>
         </div>
       </div>
+      <ScrollTop />
     </>
   );
 };

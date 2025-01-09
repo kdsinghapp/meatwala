@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import MobilePage from "../components/MobilePage";
 import Navbar from "../components/Navbar";
@@ -6,8 +6,38 @@ import Testimonials from "../components/Testimonials";
 import MainPage from "../components/Home/MainPage";
 import BestSellers from "../components/Home/BestSellers";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import ScrollTop from "../components/ScrollTop";
 
 const Home = ({ restaurants }) => {
+  const [welcome, setWelcome] = useState({});
+
+  const pkid = "1";
+
+  const getWelcomeHere = async () => {
+    try {
+      const res = await axios.post(
+        `https://partnermeatwala.com/api/Vendor/GetVendorWelcomeMessage`,
+        { pkid }
+      );
+      setWelcome(res?.data?.result);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getWelcomeHere();
+  }, []);
+
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    const decodedText = txt.value;
+
+    // Remove HTML tags
+    const strippedText = decodedText.replace(/<\/?[^>]+(>|$)/g, "");
+    return strippedText;
+  };
+
   return (
     <section>
       {/* <div className="preloader">
@@ -74,27 +104,7 @@ const Home = ({ restaurants }) => {
 
             <div className="col-xl-12 text-center">
               <p className="text-white">
-                We are thrilled to have you with us and are committed to
-                offering you an unforgettable dining experience. Our restaurant
-                is more than just a place to eat—it’s a celebration of flavor,
-                hospitality, and connection. With a menu crafted from the finest
-                ingredients and a commitment to excellence, each dish is
-                designed to satisfy your taste buds and create lasting memories.
-                Whether you're here for a special occasion or just a casual
-                meal, we invite you to relax and enjoy the atmosphere we’ve
-                carefully created just for you.
-              </p>
-              <p className="text-white">
-                Our dedicated team is here to ensure that your time with us is
-                as enjoyable as possible. From the first bite to the last, we’re
-                here to take care of every detail so you can focus on what
-                matters most—savoring great food and good company. Thank you for
-                choosing{" "}
-                <span style={{ color: "black", fontWeight: "800" }}>
-                  {restaurants?.name}
-                </span>
-                . We look forward to making your experience with us truly
-                exceptional!
+              {decodeHtml(welcome?.message)}
               </p>
             </div>
           </div>
@@ -258,23 +268,7 @@ const Home = ({ restaurants }) => {
       </section>
       <Testimonials restaurants={restaurants} />
       <MobilePage />
-      <div className="scroll-top">
-        <svg
-          className="progress-circle svg-content"
-          width="100%"
-          height="100%"
-          viewBox="-1 -1 102 102"
-        >
-          <path
-            d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"
-            style={{
-              transition: "stroke-dashoffset 10ms linear 0s",
-              strokeDasharray: "307.919, 307.919",
-              strokeDashoffset: "307.919",
-            }}
-          ></path>
-        </svg>
-      </div>
+      <ScrollTop />
       {/* 
     <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="assets/js/app.min.js"></script>

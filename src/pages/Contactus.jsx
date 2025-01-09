@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import ContactData from "../components/ContactData";
 import { Link } from "react-router-dom";
+import ScrollTop from "../components/ScrollTop";
 
 const Contactus = ({ restaurants }) => {
   // Construct Google Maps URL using latitude and longitude
@@ -106,6 +107,7 @@ const Contactus = ({ restaurants }) => {
           </div>
         </div>
       </section>
+      <ScrollTop/>
     </>
   );
 };

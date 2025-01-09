@@ -11,7 +11,6 @@ const Testimonials = ({ restaurants }) => {
       const res = await axios.get(
         `https://partnermeatwala.com/api/Vendor/getgooglereviews?restid=1`
       );
-      console.log("Reviews: ", res?.data?.result?.reviews);
       setReviews(res?.data?.result?.reviews);
     } catch (error) {}
   };

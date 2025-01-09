@@ -1,32 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react"; // Import Swiper components
-import 'swiper/css';
-
+import "swiper/css";
+import axios from "axios";
 
 const MainPage = () => {
-  const slides = [
-    {
-      bgImage: "assets/img/hero/hero_bg_3_1.jpg",
-      subtitle: "100% Fresh & Healthy Meat Provide",
-      title: "Fresh Mutton & Chicken",
-      description:
-        "Mutton are typically certified by regulatory bodies to ensure they meet specific organic standards.",
-    },
-    {
-      bgImage: "assets/img/hero/hero_bg_3_2.jpg",
-      subtitle: "100% Fresh & Healthy Meat Provide",
-      title: "Fresh Mutton & Chicken",
-      description:
-        "Mutton are typically certified by regulatory bodies to ensure they meet specific organic standards.",
-    },
-    {
-      bgImage: "assets/img/hero/hero_bg_3_3.jpg",
-      subtitle: "100% Fresh & Healthy Meat Provide",
-      title: "Fresh Mutton & Chicken",
-      description:
-        "Mutton are typically certified by regulatory bodies to ensure they meet specific organic standards.",
-    },
-  ];
+  const [slides, setSlides] = useState([]);
+
+  const pkid = "1";
+
+  const getSliderData = async () => {
+    try {
+      const res = await axios.post(
+        `https://partnermeatwala.com/api/Vendor/GetSlider`,
+        { pkid }
+      );
+      setSlides(res.data.sliders);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getSliderData();
+  }, []);
+
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    const decodedText = txt.value;
+
+    // Remove HTML tags
+    const strippedText = decodedText.replace(/<\/?[^>]+(>|$)/g, "");
+    return strippedText;
+  };
 
   return (
     <div className="th-hero-wrapper hero-3" id="hero">
@@ -45,7 +49,9 @@ const MainPage = () => {
                 <SwiperSlide key={index}>
                   <div
                     className="hero-inner"
-                    style={{ backgroundImage: `url(${slide.bgImage})` }}
+                    style={{
+                      backgroundImage: `url("https://partnermeatwala.com/documents/${slide.image}")`,
+                    }}
                   >
                     <div className="hero-style3">
                       <span
@@ -53,7 +59,7 @@ const MainPage = () => {
                         data-ani="slideinup"
                         data-ani-delay="0.0s"
                       >
-                        {slide.subtitle}
+                        {decodeHtml(slide.heading)}
                       </span>
                       <h1 className="hero-title2 text-white">
                         <span
@@ -61,7 +67,7 @@ const MainPage = () => {
                           data-ani="slideinup"
                           data-ani-delay="0.2s"
                         >
-                          {slide.title}
+                          {decodeHtml(slide.heading)}
                         </span>
                       </h1>
                       <p
@@ -69,7 +75,7 @@ const MainPage = () => {
                         data-ani="slideinup"
                         data-ani-delay="0.5s"
                       >
-                        {slide.description}
+                        {decodeHtml(slide.description)}
                       </p>
                       <a
                         href="/menu"
